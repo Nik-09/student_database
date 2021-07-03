@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}
+    Profile
+{% endblock %}
+{% block main %}
+    <h1 class="niki">Name: </h1><h3>{{ rows[0]['name'] }}</h3><br>
+    <h1 class="niki">Class: </h1><h3>{{ rows[0]['class'] }}</h3><br>
+    <h1 class="niki">Fees: </h1><h3>{{ rows[0]['fees'] }}</h3><br>
+    <h1 class="niki">Joining month: </h1><h3>{{ rows[0]['month'] }}</h3><br>
+
+{% endblock %}
