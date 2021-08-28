@@ -3,9 +3,22 @@
     Profile
 {% endblock %}
 {% block main %}
-    <h1 class="niki">Name: </h1><h3>{{ rows[0]['name'] }}</h3><br>
-    <h1 class="niki">Class: </h1><h3>{{ rows[0]['class'] }}</h3><br>
-    <h1 class="niki">Fees: </h1><h3>{{ rows[0]['fees'] }}</h3><br>
-    <h1 class="niki">Joining month: </h1><h3>{{ rows[0]['month'] }}</h3><br>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Fees</th>
+            <th>Joinning month</th>
+            <th>Last Paid</th>
+        </tr>
+        <tr>
+            <td>{{ rows[0]['name'] }}</td>
+            <td>{{ rows[0]['class'] }}</td>
+            <td>{{ rows[0]['fees'] }}</td>
+            <td>{{ rows[0]['month'] }}</td>
+            <td>{{  remaining_month_fees }}</td>
+        </tr>
+    </table>
 
 {% endblock %}
