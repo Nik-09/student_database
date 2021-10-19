@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block main %}
+<h1 class="header">Fees Record for {{a}}</h1>
+
+
+<!-- The below code is taken from google pie charts. -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Work',     11],
+        ['Eat',      2],
+        ['Commute',  2],
+        ['Watch TV', 2],
+        ['Sleep',    7]
+    ]);
+
+    var options = {
+        title: 'Fees record for students.',
+        is3D: true,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById(
+        'piechart_3d'));
+    chart.draw(data, options);
+    }
+</script>
+
+<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+
+{% endblock %}

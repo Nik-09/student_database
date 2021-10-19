@@ -7,7 +7,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -37,11 +37,13 @@ db = SQL("sqlite:///student.db")
 
 # Essential methods connected with corresponding routes.
 @app.route("/")
-@login_required
 def index():
     """Show login page"""
-    return render_template("index.html")
+    return render_template("home.html")
 
+@app.route("/home")
+def home():
+    return render_template("home.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -59,9 +61,8 @@ def register():
             return apology("You must confirm your password.")
         if (password != confirmation):
             return apology("Password must match.")
-        
+
         id_type = request.form.get("type")
-        print(id_type)
 
         # Check if the username already exists or not.
         lis = db.execute("SELECT username FROM USERS")
@@ -108,13 +109,30 @@ def login():
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
-        # Redirect user to home page
-        return redirect("/")
+        if rows[0]["type"] == 'Teacher':
+            return redirect("/teacher_dashboard")
+        else:
+            return render_template("student_dashboard.html")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
 
+@app.route("/teacher_dashboard")
+@login_required
+def teacher_dashboard():
+    return render_template("teacher_dashboard.html")
+
+@app.route("/marks")
+@login_required
+def marks():
+    return render_template("marks.html")
+
+
+@app.route("/fees")
+@login_required
+def fees():
+    return render_template("fees.html")
 
 @app.route("/logout")
 def logout():
@@ -142,13 +160,9 @@ def search():
             name = request.form.get("name")
             std = request.form.get("class")
             rows = db.execute("SELECT * FROM stud WHERE name=? and class=?",name, std)
-            remaining_month_fees = datetime.datetime.now().month 
-            
-            print(remaining_month_fees)
+            remaining_month_fees = datetime.datetime.now().month
+
             return render_template("profile.html",rows=rows, remaining_month_fees=remaining_month_fees)
-
-    return apology("TODO")
-
 
 
 @app.route("/enter", methods=["GET", "POST"])
@@ -161,8 +175,8 @@ def enter():
         std = request.form.get("class")
         fees = request.form.get("fees")
         month = request.form.get("month")
-        print(month)
-        
+        # print(month)
+
         # Validating student data.
         if not name:
             return apology('Enter student name.')

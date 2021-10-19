@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block main %}
+    <h1 class="header">Welcome to Teacher dashboard!</h1>
+    <div class="common-bottons">
+        <a href="{{url_for('search')}}" class="common-link">Search your student</a>
+        <a href="{{url_for('enter')}}"class="common-link">Enter new record</a>
+    </div>
+{% endblock %}
